@@ -11,6 +11,7 @@ return [
     'id' => 'app-console',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language' => 'ru-RU',
     'controllerNamespace' => 'console\controllers',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -19,7 +20,7 @@ return [
     'controllerMap' => [
         'fixture' => [
             'class' => 'yii\console\controllers\FixtureController',
-            'namespace' => 'common\fixtures',
+            'namespace' => 'common\tests\fixtures',
           ],
     ],
     'components' => [

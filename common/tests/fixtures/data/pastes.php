@@ -1,0 +1,81 @@
+<?php
+
+use common\enums\PasteExpirationTypeEnum;
+use common\enums\SyntaxTypeEnum;
+
+$time = time();
+
+return [
+    'p1' => [
+        'id' => 1,
+        'name' => 'Первая тестовая паста',
+        'content' => 'контент...',
+        'token' => Yii::$app->security->generateRandomString(16),
+        'syntax_type' => SyntaxTypeEnum::SYNTAX_PHP,
+        'expiration_type' => PasteExpirationTypeEnum::EXPIRE_NEVER,
+        'is_private' => false,
+        'is_deleted' => false,
+        'created_at' => $time,
+        'updated_at' => $time,
+    ],
+    'p2' => [
+        'id' => 2,
+        'name' => 'Вторая тестовая паста',
+        'content' => 'контент...',
+        'token' => Yii::$app->security->generateRandomString(16),
+        'syntax_type' => SyntaxTypeEnum::SYNTAX_PHP,
+        'expiration_type' => PasteExpirationTypeEnum::EXPIRE_NEVER,
+        'is_private' => false,
+        'is_deleted' => false,
+        'created_at' => $time,
+        'updated_at' => $time,
+    ],
+    'p3' => [
+        'id' => 3,
+        'name' => 'Третья тестовая паста',
+        'content' => 'контент...',
+        'token' => Yii::$app->security->generateRandomString(16),
+        'syntax_type' => SyntaxTypeEnum::SYNTAX_PHP,
+        'expiration_type' => PasteExpirationTypeEnum::EXPIRE_NEVER,
+        'is_private' => false,
+        'is_deleted' => false,
+        'created_at' => $time,
+        'updated_at' => $time,
+    ],
+    'p4' => [
+        'id' => 4,
+        'name' => 'Четвертая тестовая паста',
+        'content' => 'контент...',
+        'token' => Yii::$app->security->generateRandomString(16),
+        'syntax_type' => SyntaxTypeEnum::SYNTAX_PHP,
+        'expiration_type' => PasteExpirationTypeEnum::EXPIRE_NEVER,
+        'is_private' => false,
+        'is_deleted' => false,
+        'created_at' => $time,
+        'updated_at' => $time,
+    ],
+    'p5' => [
+        'id' => 5,
+        'name' => 'Пятая тестовая приватная паста',
+        'content' => 'контент...',
+        'token' => Yii::$app->security->generateRandomString(16),
+        'syntax_type' => SyntaxTypeEnum::SYNTAX_PHP,
+        'expiration_type' => PasteExpirationTypeEnum::EXPIRE_NEVER,
+        'is_private' => true,
+        'is_deleted' => false,
+        'created_at' => $time,
+        'updated_at' => $time,
+    ],
+    'p6' => [
+        'id' => 6,
+        'name' => 'Шестая тестовая удаленная паста',
+        'content' => 'контент...',
+        'token' => Yii::$app->security->generateRandomString(16),
+        'syntax_type' => SyntaxTypeEnum::SYNTAX_PHP,
+        'expiration_type' => PasteExpirationTypeEnum::EXPIRE_NEVER,
+        'is_private' => false,
+        'is_deleted' => true,
+        'created_at' => $time,
+        'updated_at' => $time,
+    ],
+];

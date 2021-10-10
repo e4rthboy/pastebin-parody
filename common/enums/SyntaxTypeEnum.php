@@ -2,7 +2,7 @@
 
 namespace common\enums;
 
-class SyntaxTypeEnum
+class SyntaxTypeEnum extends BaseEnum
 {
     public const SYNTAX_RAW = 1;
     public const SYNTAX_PHP = 2;
