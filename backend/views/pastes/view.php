@@ -2,6 +2,7 @@
 
 use common\enums\PasteExpirationTypeEnum;
 use common\enums\SyntaxTypeEnum;
+use kartik\editors\Codemirror;
 use yii\helpers\Html;
 use yii\web\YiiAsset;
 use yii\widgets\DetailView;
@@ -50,8 +51,14 @@ YiiAsset::register($this);
             'deleted_at:datetime',
             'created_at:datetime',
             'updated_at:datetime',
-            'content:ntext',
         ],
     ]) ?>
 
+    <h2>Контент пасты:</h2>
+
+    <?= Codemirror::widget([
+        'name' => 'content',
+        'value' => $model->content,
+        'preset' => SyntaxTypeEnum::findValueByKey($model->syntax_type),
+    ]) ?>
 </div>

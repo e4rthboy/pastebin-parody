@@ -1,14 +1,15 @@
 <?php
 
+use backend\models\PasteCreateForm;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\paste\Paste */
+/* @var $updateForm PasteCreateForm */
 
-$this->title = 'Изменение пасты: ' . $model->name;
+$this->title = 'Изменение пасты: ' . $updateForm->name;
 
 $this->params['breadcrumbs'][] = ['label' => 'Пасты', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $updateForm->name, 'url' => ['view', 'id' => $updateForm->id]];
 $this->params['breadcrumbs'][] = 'Изменение';
 
 ?>
@@ -17,7 +18,7 @@ $this->params['breadcrumbs'][] = 'Изменение';
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
-        'model' => $model,
+        'createForm' => $updateForm,
     ]) ?>
 
 </div>

@@ -2,11 +2,14 @@
 
 namespace backend\controllers;
 
+use backend\models\PasteCreateForm;
 use backend\models\PasteSearchForm;
 use common\exceptions\RecordNotFoundException;
 use common\models\paste\Paste;
 use common\models\paste\PasteInterface;
 use common\models\paste\PasteRepository;
+use common\services\paste\dto\PasteCreateDto;
+use yii\base\Exception;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -79,21 +82,29 @@ class PastesController extends Controller
 
     /**
      * @return mixed
+     * @throws Exception
      */
     public function actionCreate()
     {
-        $model = new Paste();
+        $createForm = new PasteCreateForm();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        if ($createForm->load($this->request->post()) && $createForm->validate()) {
+            $createDto = new PasteCreateDto(
+                $createForm->name,
+                $createForm->content,
+                $createForm->syntaxType,
+                $createForm->isPrivate,
+                $createForm->expirationType,
+                $createForm->isDeleted,
+            );
+
+            $this->pasteRepository->create($createDto);
+
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'createForm' => $createForm,
         ]);
     }
 
@@ -107,15 +118,30 @@ class PastesController extends Controller
         /** @var Paste $paste */
         $paste = $this->getPaste($id);
 
-        if ($this->request->isPost
-            && $paste->load($this->request->post())
-            && $paste->save()
-        ) {
-            return $this->redirect(['view', 'id' => $paste->id]);
+        $updateForm = new PasteCreateForm([
+            'name' => $paste->name,
+            'content' => $paste->content,
+            'syntaxType' => $paste->syntax_type,
+            'expirationType' => $paste->expiration_type,
+            'isPrivate' => $paste->is_private,
+            'isDeleted' => $paste->is_deleted,
+        ]);
+
+        if ($updateForm->load($this->request->post()) && $updateForm->validate()) {
+            $paste->name = $updateForm->name;
+            $paste->content = $updateForm->content;
+            $paste->syntax_type = $updateForm->syntaxType;
+            $paste->expiration_type = $updateForm->expirationType;
+            $paste->is_private = $updateForm->isPrivate;
+            $paste->is_deleted = $updateForm->isDeleted;
+
+            $paste->save();
+
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
-            'model' => $paste,
+            'updateForm' => $updateForm,
         ]);
     }
 

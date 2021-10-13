@@ -1,12 +1,14 @@
 <?php
 
+use backend\models\PasteCreateForm;
 use common\enums\PasteExpirationTypeEnum;
 use common\enums\SyntaxTypeEnum;
+use conquer\codemirror\CodemirrorWidget;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\paste\Paste */
+/* @var $createForm PasteCreateForm */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -14,17 +16,22 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($createForm, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
+    <?= $form->field($createForm, 'content')->widget(
+        CodemirrorWidget::class,
+        [
+            'options' => ['rows' => 20],
+        ]
+    ); ?>
 
-    <?= $form->field($model, 'syntax_type')->dropDownList(SyntaxTypeEnum::getNamesList()) ?>
+    <?= $form->field($createForm, 'syntaxType')->dropDownList(SyntaxTypeEnum::getNamesList()) ?>
 
-    <?= $form->field($model, 'expiration_type')->dropDownList(PasteExpirationTypeEnum::getNamesList()) ?>
+    <?= $form->field($createForm, 'expirationType')->dropDownList(PasteExpirationTypeEnum::getNamesList()) ?>
 
-    <?= $form->field($model, 'is_private')->checkbox() ?>
+    <?= $form->field($createForm, 'isPrivate')->checkbox() ?>
 
-    <?= $form->field($model, 'is_deleted')->checkbox() ?>
+    <?= $form->field($createForm, 'isDeleted')->checkbox() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

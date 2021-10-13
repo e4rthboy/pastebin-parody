@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace common\models\paste;
 
 use backend\models\PasteSearchForm;
@@ -27,6 +29,7 @@ class PasteRepository
             'syntax_type' => $createDto->getSyntaxType(),
             'expiration_type' => $createDto->getExpirationType(),
             'is_private' => $createDto->isPrivate(),
+            'is_deleted' => $createDto->isDeleted(),
             'token' => $this->generateUniqueToken(),
         ]);
 

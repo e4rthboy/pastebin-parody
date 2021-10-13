@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace common\services\paste\dto;
 
 /**
@@ -12,14 +14,22 @@ class PasteCreateDto
     private int $syntaxType;
     private bool $isPrivate;
     private int $expirationType;
+    private bool $isDeleted;
 
-    public function __construct(string $name, string $content, int $syntaxType, bool $isPrivate, int $expirationType)
-    {
+    public function __construct(
+        string $name,
+        string $content,
+        int    $syntaxType,
+        bool   $isPrivate,
+        int    $expirationType,
+        bool   $isDeleted = false
+    ) {
         $this->name = $name;
         $this->content = $content;
         $this->syntaxType = $syntaxType;
         $this->isPrivate = $isPrivate;
         $this->expirationType = $expirationType;
+        $this->isDeleted = $isDeleted;
     }
 
     public function getName(): string
@@ -45,5 +55,10 @@ class PasteCreateDto
     public function getExpirationType(): int
     {
         return $this->expirationType;
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->isDeleted;
     }
 }

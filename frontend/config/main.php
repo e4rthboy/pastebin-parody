@@ -10,6 +10,8 @@ return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'name' => 'Pastebin Parody',
+    'language' => 'ru-RU',
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
@@ -43,6 +45,10 @@ return [
             'rules' => [
                 '/' => 'site/index',
                 'site/error' => 'site/error',
+
+                'pastes' => 'pastes/index',
+                '<token>' => 'pastes/view',
+                'pastes/create' => 'pastes/create',
             ],
         ],
     ],
