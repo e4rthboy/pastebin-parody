@@ -1,59 +1,89 @@
-<p align="center">
-    <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
-    </a>
-    <h1 align="center">Yii 2 Advanced Project Template</h1>
-    <br>
+# Pastebin Parody
+Pastebin Parody is a project that imitates [pastebin.com](https://pastebin.com) website. It is based on [Yii2 Framework](https://www.yiiframework.com/) and PHP 7.4 version.
 
-Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-developing complex Web applications with multiple tiers.
+# Installation
 
-The template includes three tiers: front end, back end, and console, each of which
-is a separate Yii application.
+### Prerequisites
+- Docker CE, Docker-Compose
+- Make
 
-The template is designed to work in a team development environment. It supports
-deploying the application in different environments.
+## 1. Deploying development environment
+### 1.1 Docker containers management
 
-Documentation is at [docs/guide/README.md](docs/guide/README.md).
+When preparing the project for the first time, you need to copy the Apache2 and MySQL configurations to the laradock directory:
+```
+$ cp -r utils/config/* ../laradock
+```
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![build](https://github.com/yiisoft/yii2-app-advanced/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-app-advanced/actions?query=workflow%3Abuild)
+To build containers, run the `$ make build` script from root of the project. It may take quite a long time before the necessary Docker images will be built.
 
-DIRECTORY STRUCTURE
--------------------
+To start containers, just run the `$ make run` script from root of the project.
+
+To work with the project console (launching Yii commands, console commands, etc.), just run
+script `$ make bash`. 
+
+In this case, you will be taken to the console of the container *workspace* under the user *laradock*, in the subdirectory
+`/var/www`. For further work with the project, you will have to launch scripts from this subdirectory.
+
+To stop containers, run the command `$ make stop`.
+
+### 1.2 Database creation
+
+Firstly you need to run `$ make mysql_shell` script, that will take you to MySQL Shell environment.
+
+After that execute this command:
+```
+mysql -u root -p < /docker-entrypoint-initdb.d/createdb.sql
+```
+This command creates two databases: `pastebin_parody_db` and `pastebin_parody_test_db` (to execute autotests):
+
+Default *username:password* combination is a *root:root*.
+
+## 2. Project initialization
+### 2.1 Yii Framework deployment
+
+In the project directory (make sure you are in *workspace* container) you have to run these commands:
+
+- *Dependencies installation*
+```
+composer install --prefer-dist --dev
+```
+
+- *Initialization of the project local folders*
+```
+./init --env=Development --overwrite=y
+```
+
+- *Applying migrations*
+```
+./yii migrate/up --interactive=0
+```
+
+- *Initialization of initial data*
+```
+./yii app/init
+```
+
+- *Loading fixtures*
+```
+./yii fixture/load --interactive=0 "*"
+```
+
+### 2.2 Access to the site through a local browser
+
+To setup the access to the project through a browser, add the following correspondence to the `/etc/hosts` file of your machine:
 
 ```
-common
-    config/              contains shared configurations
-    mail/                contains view files for e-mails
-    models/              contains model classes used in both backend and frontend
-    tests/               contains tests for common classes    
-console
-    config/              contains console configurations
-    controllers/         contains console controllers (commands)
-    migrations/          contains database migrations
-    models/              contains console-specific model classes
-    runtime/             contains files generated during runtime
-backend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains backend configurations
-    controllers/         contains Web controller classes
-    models/              contains backend-specific model classes
-    runtime/             contains files generated during runtime
-    tests/               contains tests for backend application    
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-frontend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains frontend configurations
-    controllers/         contains Web controller classes
-    models/              contains frontend-specific model classes
-    runtime/             contains files generated during runtime
-    tests/               contains tests for frontend application
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-    widgets/             contains frontend widgets
-vendor/                  contains dependent 3rd-party packages
-environments/            contains environment-based overrides
+127.0.0.1   pastebin-parody.local
+```
+
+To access the admin section use this URL:
+```
+http://pastebin-parody.local/admin
+```
+
+Admin credentials:
+```
+Login: admin
+Password: secret123
 ```
